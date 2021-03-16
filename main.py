@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
+from tkinter import font
 from pathlib import Path
 
 root = Tk()
@@ -9,6 +10,9 @@ root.geometry("800x500")
 
 global name_of_file
 name_of_file = False
+
+global selected
+selected = ""
 
 
 # Functions
@@ -47,7 +51,7 @@ def open_file():
 def save_file():
     global name_of_file
     if name_of_file:
-        file_name = name_of_file.split("/")[-1]
+        file_name = str(name_of_file).split("/")[-1]
         root.title(f"{file_name} - PyTextEdit")
         status_bar.config(text=f"Saved File {file_name}    ")
 
@@ -80,6 +84,45 @@ def save_as_file():
         file.close()
 
 
+def cut_text(e):
+    global selected
+
+    if e:
+        selected = root.clipboard_get()
+
+    else:
+        if my_text.selection_get():
+            selected = my_text.selection_get()
+            my_text.delete("sel.first", "sel.last")
+            root.clipboard_clear()
+            root.clipboard_append(selected)
+
+
+def copy_text(e):
+    global selected
+
+    # Check If We Used Keyboard Shortcuts
+    if e:
+        selected = root.clipboard_get()
+
+    if my_text.selection_get():
+        selected = my_text.selection_get()
+        root.clipboard_clear()
+        root.clipboard_append(selected)
+
+
+def paste_text(e):
+    global selected
+    if e:
+        selected = root.clipboard_get()
+
+    else:
+        if selected:
+            position = my_text.index(INSERT)
+            my_text.delete(my_text.selection_get())
+            my_text.insert(position, selected)
+
+
 # Create Main Frame
 my_frame = Frame(root)
 my_frame.pack(pady=5)
@@ -107,24 +150,37 @@ root.config(menu=my_menu)
 # File Menu
 file_menu = Menu(my_menu, tearoff=False)
 my_menu.add_cascade(label="File", menu=file_menu)
+
 file_menu.add_command(label="New", command=new_file)
 file_menu.add_command(label="Open", command=open_file)
 file_menu.add_command(label="Save", command=save_file)
 file_menu.add_command(label="Save As", command=save_as_file)
+
 file_menu.add_separator()
+
 file_menu.add_command(label="Exit", command=root.quit)
 
 # Edit Menu
 edit_menu = Menu(my_menu, tearoff=False)
 my_menu.add_cascade(label="Edit", menu=edit_menu)
-edit_menu.add_command(label="Cut")
-edit_menu.add_command(label="Copy")
-edit_menu.add_command(label="Paste")
+
+edit_menu.add_command(label="Cut                (Ctrl+X)", command=lambda: cut_text(False))
+edit_menu.add_command(label="Copy               (Ctrl+C)", command=lambda: copy_text(False))
+edit_menu.add_command(label="Paste              (Ctrl+V)", command=lambda: paste_text(False))
+
+edit_menu.add_separator()
+
 edit_menu.add_command(label="Undo")
 edit_menu.add_command(label="Redo")
 
 # Add Status Bar at bottom
 status_bar = Label(root, text="Ready    ", anchor=E)
 status_bar.pack(fill=X, side=BOTTOM, ipady=5)
+
+
+# Edit Bindings
+root.bind("<Control-x>", cut_text)
+root.bind("<Control-c>", copy_text)
+root.bind("<Control-v>", paste_text)
 
 root.mainloop()
