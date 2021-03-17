@@ -136,6 +136,7 @@ my_text = Text(my_frame,
                width=105, height=25,
                font=("Consolas", 16),
                undo=True,
+               wrap="none",
                yscrollcommand=text_scroll.set)
 
 my_text.pack()
