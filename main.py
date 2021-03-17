@@ -164,19 +164,18 @@ file_menu.add_command(label="Exit", command=root.quit)
 edit_menu = Menu(my_menu, tearoff=False)
 my_menu.add_cascade(label="Edit", menu=edit_menu)
 
-edit_menu.add_command(label="Cut                (Ctrl+X)", command=lambda: cut_text(False))
-edit_menu.add_command(label="Copy               (Ctrl+C)", command=lambda: copy_text(False))
-edit_menu.add_command(label="Paste              (Ctrl+V)", command=lambda: paste_text(False))
+edit_menu.add_command(label="Cut", command=lambda: cut_text(False), accelerator="(Ctrl+X)")
+edit_menu.add_command(label="Copy", command=lambda: copy_text(False), accelerator="(Ctrl+C)")
+edit_menu.add_command(label="Paste", command=lambda: paste_text(False), accelerator="(Ctrl+V)")
 
 edit_menu.add_separator()
 
-edit_menu.add_command(label="Undo")
-edit_menu.add_command(label="Redo")
+edit_menu.add_command(label="Undo", command=my_text.edit_undo, accelerator="(Ctrl+Z)")
+edit_menu.add_command(label="Redo", command=my_text.edit_redo, accelerator="(Ctrl+Y)")
 
 # Add Status Bar at bottom
 status_bar = Label(root, text="Ready    ", anchor=E)
 status_bar.pack(fill=X, side=BOTTOM, ipady=5)
-
 
 # Edit Bindings
 root.bind("<Control-x>", cut_text)
