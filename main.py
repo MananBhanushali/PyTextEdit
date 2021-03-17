@@ -125,11 +125,15 @@ def paste_text(e):
 
 # Create Main Frame
 my_frame = Frame(root)
-my_frame.pack(pady=5)
+my_frame.pack()
 
-# Create A Scroll Bar
+# Create A Vertical Scroll Bar
 text_scroll = Scrollbar(my_frame)
 text_scroll.pack(side=RIGHT, fill=Y)
+
+# Create A Horizontal Scroll Bar
+horizontal_scrollbar = Scrollbar(my_frame, orient=HORIZONTAL)
+horizontal_scrollbar.pack(side=BOTTOM, fill=X)
 
 # Create Text Box
 my_text = Text(my_frame,
@@ -137,12 +141,14 @@ my_text = Text(my_frame,
                font=("Consolas", 16),
                undo=True,
                wrap="none",
+               xscrollcommand=horizontal_scrollbar.set,
                yscrollcommand=text_scroll.set)
 
 my_text.pack()
 
 # Configure Scrollbar
 text_scroll.config(command=my_text.yview)
+horizontal_scrollbar.config(command=my_text.xview)
 
 # Create a Menu Bar
 my_menu = Menu(root)
