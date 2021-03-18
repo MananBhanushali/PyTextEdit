@@ -123,6 +123,10 @@ def paste_text(e):
             my_text.insert(position, selected)
 
 
+# Create ToolBar Frame
+toolbar_frame = Frame(root)
+toolbar_frame.pack(fill=X)
+
 # Create Main Frame
 my_frame = Frame(root)
 my_frame.pack()
