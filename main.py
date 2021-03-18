@@ -1,5 +1,3 @@
-# TODO - Change Font To Consolas Size 11
-
 from tkinter import *
 from tkinter import filedialog
 from tkinter import font
@@ -139,6 +137,7 @@ def text_bold():
     else:
         my_text.tag_add("bold", "sel.first", "sel.last ")
 
+
 def text_italics():
     italics_font = font.Font(my_text, my_text.cget('font'))
     italics_font.configure(slant="italic")
@@ -152,7 +151,6 @@ def text_italics():
 
     else:
         my_text.tag_add("italics", "sel.first", "sel.last ")
-
 
 
 # Create ToolBar Frame
@@ -174,7 +172,7 @@ horizontal_scrollbar.pack(side=BOTTOM, fill=X)
 # Create Text Box
 my_text = Text(my_frame,
                width=105, height=25,
-               font=("Consolas", 16),
+               font=("Consolas", 11),
                undo=True,
                wrap="none",
                xscrollcommand=horizontal_scrollbar.set,
