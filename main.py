@@ -1,3 +1,5 @@
+# TODO - Change Font To Consolas Size 11
+
 from tkinter import *
 from tkinter import filedialog
 from tkinter import font
@@ -123,6 +125,36 @@ def paste_text(e):
             my_text.insert(position, selected)
 
 
+def text_bold():
+    bold_font = font.Font(my_text, my_text.cget('font'))
+    bold_font.configure(weight="bold")
+
+    my_text.tag_configure("bold", font=bold_font)
+
+    current_tags = my_text.tag_names("sel.first")
+
+    if "bold" in current_tags:
+        my_text.tag_remove("bold", "sel.first", "sel.last")
+
+    else:
+        my_text.tag_add("bold", "sel.first", "sel.last ")
+
+def text_italics():
+    italics_font = font.Font(my_text, my_text.cget('font'))
+    italics_font.configure(slant="italic")
+
+    my_text.tag_configure("italics", font=italics_font)
+
+    current_tags = my_text.tag_names("sel.first")
+
+    if "italics" in current_tags:
+        my_text.tag_remove("italics", "sel.first", "sel.last")
+
+    else:
+        my_text.tag_add("italics", "sel.first", "sel.last ")
+
+
+
 # Create ToolBar Frame
 toolbar_frame = Frame(root)
 toolbar_frame.pack(fill=X)
@@ -192,5 +224,18 @@ status_bar.pack(fill=X, side=BOTTOM, ipady=5)
 root.bind("<Control-x>", cut_text)
 root.bind("<Control-c>", copy_text)
 root.bind("<Control-v>", paste_text)
+
+# Create ToolBar Buttons
+bold_button = Button(toolbar_frame, text="Bold", command=text_bold)
+bold_button.grid(row=0, column=0, sticky=W, padx=5)
+
+italics_button = Button(toolbar_frame, text="Italics", command=text_italics)
+italics_button.grid(row=0, column=1, padx=5)
+
+undo_button = Button(toolbar_frame, text="Undo", command=my_text.edit_undo)
+undo_button.grid(row=0, column=2, padx=5)
+
+redo_button = Button(toolbar_frame, text="Redo", command=my_text.edit_redo)
+redo_button.grid(row=0, column=3, padx=5)
 
 root.mainloop()
