@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 from tkinter import font
+from tkinter import colorchooser
 from pathlib import Path
 
 root = Tk()
@@ -153,6 +154,21 @@ def text_italics():
         my_text.tag_add("italics", "sel.first", "sel.last ")
 
 
+def change_text_color():
+    my_color = colorchooser.askcolor()[-1]
+
+    if my_color:
+        color_font = font.Font(my_text, my_text.cget('font'))
+        my_text.tag_configure("colored", font=color_font, foreground=my_color)
+        current_tags = my_text.tag_names("sel.first")
+
+        if "colored" in current_tags:
+            my_text.tag_remove("colored", "sel.first", "sel.last")
+        else:
+            my_text.tag_add("colored", "sel.first", "sel.last ")
+
+        status_bar.config(text=f"Changed Text Color To {my_color}")
+
 # Create ToolBar Frame
 toolbar_frame = Frame(root)
 toolbar_frame.pack(fill=X)
@@ -171,7 +187,8 @@ horizontal_scrollbar.pack(side=BOTTOM, fill=X)
 
 # Create Text Box
 my_text = Text(my_frame,
-               width=105, height=25,
+               # width=105, height=25,
+               width=170, height=32,
                font=("Consolas", 11),
                undo=True,
                wrap="none",
@@ -235,5 +252,8 @@ undo_button.grid(row=0, column=2, padx=5)
 
 redo_button = Button(toolbar_frame, text="Redo", command=my_text.edit_redo)
 redo_button.grid(row=0, column=3, padx=5)
+
+color_text_button = Button(toolbar_frame, text="Text Color", command=change_text_color)
+color_text_button.grid(row=0, column=4, padx=5)
 
 root.mainloop()
