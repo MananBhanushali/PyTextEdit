@@ -104,6 +104,7 @@ def print_file():
 
     status_bar.config(text=f"Printed File {file}")
 
+
 def cut_text(e):
     global selected
 
@@ -207,6 +208,14 @@ def change_all_text_color():
         status_bar.config(text=f"Changed Text Color to {my_color}")
 
 
+def select_all_text():
+    my_text.tag_add('sel', '1.0', END)
+
+
+def clear_all_text():
+    pass
+
+
 # Create ToolBar Frame
 toolbar_frame = Frame(root)
 toolbar_frame.pack(fill=X)
@@ -273,6 +282,11 @@ edit_menu.add_separator()
 edit_menu.add_command(label="Undo", command=my_text.edit_undo, accelerator="(Ctrl+Z)")
 edit_menu.add_command(label="Redo", command=my_text.edit_redo, accelerator="(Ctrl+Y)")
 
+edit_menu.add_separator()
+
+edit_menu.add_command(label="Select All", command=select_all_text, accelerator="(Ctrl+A)")
+edit_menu.add_command(label="Clear", command=clear_all_text)
+
 # Color Menu
 color_menu = Menu(my_menu, tearoff=False)
 my_menu.add_cascade(label="Color", menu=color_menu)
@@ -305,5 +319,8 @@ redo_button.grid(row=0, column=3, padx=5)
 
 color_text_button = Button(toolbar_frame, text="Text Color", command=change_selected_text_color)
 color_text_button.grid(row=0, column=4, padx=5)
+
+select_all_text_button = Button(toolbar_frame, text="Select All", command=select_all_text)
+select_all_text_button.grid(row=0, column=5, padx=5)
 
 root.mainloop()
