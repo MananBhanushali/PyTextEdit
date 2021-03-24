@@ -213,7 +213,7 @@ def select_all_text():
 
 
 def clear_all_text():
-    pass
+    my_text.delete(1.0, END)
 
 
 # Create ToolBar Frame
@@ -322,5 +322,9 @@ color_text_button.grid(row=0, column=4, padx=5)
 
 select_all_text_button = Button(toolbar_frame, text="Select All", command=select_all_text)
 select_all_text_button.grid(row=0, column=5, padx=5)
+
+clear_all_text_button = Button(toolbar_frame, text="Clear", command=clear_all_text)
+clear_all_text_button.grid(row=0, column=6, padx=5)
+
 
 root.mainloop()
