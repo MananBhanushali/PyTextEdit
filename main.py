@@ -208,7 +208,7 @@ def change_all_text_color():
         status_bar.config(text=f"Changed Text Color to {my_color}")
 
 
-def select_all_text():
+def select_all_text(e):
     my_text.tag_add('sel', '1.0', END)
 
 
@@ -284,7 +284,7 @@ edit_menu.add_command(label="Redo", command=my_text.edit_redo, accelerator="(Ctr
 
 edit_menu.add_separator()
 
-edit_menu.add_command(label="Select All", command=select_all_text, accelerator="(Ctrl+A)")
+edit_menu.add_command(label="Select All", command=lambda: select_all_text(False), accelerator="(Ctrl+A)")
 edit_menu.add_command(label="Clear", command=clear_all_text)
 
 # Color Menu
@@ -303,6 +303,7 @@ status_bar.pack(fill=X, side=BOTTOM, ipady=5)
 root.bind("<Control-x>", cut_text)
 root.bind("<Control-c>", copy_text)
 root.bind("<Control-v>", paste_text)
+root.bind("<Control-a>", select_all_text)
 
 # Create ToolBar Buttons
 bold_button = Button(toolbar_frame, text="Bold", command=text_bold)
@@ -320,7 +321,7 @@ redo_button.grid(row=0, column=3, padx=5)
 color_text_button = Button(toolbar_frame, text="Text Color", command=change_selected_text_color)
 color_text_button.grid(row=0, column=4, padx=5)
 
-select_all_text_button = Button(toolbar_frame, text="Select All", command=select_all_text)
+select_all_text_button = Button(toolbar_frame, text="Select All", command=lambda: select_all_text(False))
 select_all_text_button.grid(row=0, column=5, padx=5)
 
 clear_all_text_button = Button(toolbar_frame, text="Clear", command=clear_all_text)
