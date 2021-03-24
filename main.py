@@ -3,6 +3,10 @@ from tkinter import filedialog
 from tkinter import font
 from tkinter import colorchooser
 from pathlib import Path
+import os
+import sys
+import win32print
+import win32api
 
 root = Tk()
 root.title("Untitled - PyTextEdit")
@@ -84,6 +88,21 @@ def save_as_file():
         file.write(my_text.get(1.0, END))
         file.close()
 
+
+def print_file():
+    printer = win32print.GetDefaultPrinter()
+    status_bar.config(text=f"Default Printer - {printer}")
+
+    file = filedialog.askopenfilename(initialdir=Path.home(),
+                                      title="Open File", filetypes=(
+            ("Text Files", "*.txt"),
+            ("All Files", "*")
+        ))
+
+    if file:
+        win32api.ShellExecute(0, "print", file, None, ".", 0)
+
+    status_bar.config(text=f"Printed File {file}")
 
 def cut_text(e):
     global selected
@@ -232,6 +251,10 @@ file_menu.add_command(label="New", command=new_file)
 file_menu.add_command(label="Open", command=open_file)
 file_menu.add_command(label="Save", command=save_file)
 file_menu.add_command(label="Save As", command=save_as_file)
+
+file_menu.add_separator()
+
+file_menu.add_command(label="Print File", command=print_file)
 
 file_menu.add_separator()
 
