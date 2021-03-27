@@ -8,6 +8,11 @@ import sys
 import win32print
 import win32api
 
+black = "#000000"
+grey = "#373737"
+white = "#ffffff"
+default_color = "SystemButtonFace"
+
 root = Tk()
 root.title("Untitled - PyTextEdit")
 root.iconbitmap("Icon.ico")
@@ -216,6 +221,46 @@ def clear_all_text():
     my_text.delete(1.0, END)
 
 
+def dark_mode_on():
+    root.config(bg=black)
+    status_bar.config(bg=black, fg=white)
+    my_text.config(bg=black, fg=white)
+    toolbar_frame.config(bg=black)
+
+    bold_button.config(bg=black, fg=white)
+    italics_button.config(bg=black, fg=white)
+    color_text_button.config(bg=black, fg=white)
+    undo_button.config(bg=black, fg=white)
+    redo_button.config(bg=black, fg=white)
+    select_all_text_button.config(bg=black, fg=white)
+    clear_all_text_button.config(bg=black, fg=white)
+
+    file_menu.config(bg=black, fg=white)
+    edit_menu.config(bg=black, fg=white)
+    color_menu.config(bg=black, fg=white)
+    options_menu.config(bg=black, fg=white)
+
+
+def dark_mode_off():
+    root.config(bg=default_color)
+    status_bar.config(bg=default_color, fg=black)
+    my_text.config(bg=white, fg=black)
+    toolbar_frame.config(bg=default_color)
+
+    bold_button.config(bg=default_color, fg=black)
+    italics_button.config(bg=default_color, fg=black)
+    color_text_button.config(bg=default_color, fg=black)
+    undo_button.config(bg=default_color, fg=black)
+    redo_button.config(bg=default_color, fg=black)
+    select_all_text_button.config(bg=default_color, fg=black)
+    clear_all_text_button.config(bg=default_color, fg=black)
+
+    file_menu.config(bg=default_color, fg=black)
+    edit_menu.config(bg=default_color, fg=black)
+    color_menu.config(bg=default_color, fg=black)
+    options_menu.config(bg=default_color, fg=black  )
+
+
 # Create ToolBar Frame
 toolbar_frame = Frame(root)
 toolbar_frame.pack(fill=X)
@@ -234,7 +279,6 @@ horizontal_scrollbar.pack(side=BOTTOM, fill=X)
 
 # Create Text Box
 my_text = Text(my_frame,
-               # width=105, height=25,
                width=170, height=31.49,
                font=("Consolas", 11),
                undo=True,
@@ -295,6 +339,13 @@ color_menu.add_command(label="Selected Text", command=change_selected_text_color
 color_menu.add_command(label="Background", command=change_bg_color)
 color_menu.add_command(label="All Text ", command=change_all_text_color)
 
+# Options Menu
+options_menu = Menu(my_menu, tearoff=False)
+my_menu.add_cascade(label="Options", menu=options_menu)
+
+options_menu.add_command(label="Dark Mode On", command=dark_mode_on)
+options_menu.add_command(label="Dark Mode Off", command=dark_mode_off)
+
 # Add Status Bar at bottom
 status_bar = Label(root, text="Ready    ", anchor=E)
 status_bar.pack(fill=X, side=BOTTOM, ipady=5)
@@ -326,6 +377,5 @@ select_all_text_button.grid(row=0, column=5, padx=5)
 
 clear_all_text_button = Button(toolbar_frame, text="Clear", command=clear_all_text)
 clear_all_text_button.grid(row=0, column=6, padx=5)
-
 
 root.mainloop()
