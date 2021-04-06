@@ -3,8 +3,6 @@ from tkinter import filedialog
 from tkinter import font
 from tkinter import colorchooser
 from pathlib import Path
-import os
-import sys
 import win32print
 import win32api
 
@@ -95,19 +93,22 @@ def save_as_file():
 
 
 def print_file():
-    printer = win32print.GetDefaultPrinter()
-    status_bar.config(text=f"Default Printer - {printer}")
+    try:
+        printer = win32print.GetDefaultPrinter()
+        status_bar.config(text=f"Default Printer - {printer}")
 
-    file = filedialog.askopenfilename(initialdir=Path.home(),
-                                      title="Open File", filetypes=(
-            ("Text Files", "*.txt"),
-            ("All Files", "*")
-        ))
+        file = filedialog.askopenfilename(initialdir=Path.home(),
+                                          title="Open File", filetypes=(
+                ("Text Files", "*.txt"),
+                ("All Files", "*")
+            ))
 
-    if file:
-        win32api.ShellExecute(0, "print", file, None, ".", 0)
+        if file:
+            win32api.ShellExecute(0, "print", file, None, ".", 0)
 
-    status_bar.config(text=f"Printed File {file}")
+        status_bar.config(text=f"Printed File {file}")
+    except:
+        print("An Error Occurred")
 
 
 def cut_text(e):
@@ -139,13 +140,17 @@ def copy_text(e):
 
 def paste_text(e):
     global selected
+
     if e:
         selected = root.clipboard_get()
 
     else:
         if selected:
             position = my_text.index(INSERT)
-            my_text.delete(my_text.selection_get())
+            try:
+                my_text.delete(my_text.selection_get())
+            except:
+                pass
             my_text.insert(position, selected)
 
 
@@ -258,7 +263,7 @@ def dark_mode_off():
     file_menu.config(bg=default_color, fg=black)
     edit_menu.config(bg=default_color, fg=black)
     color_menu.config(bg=default_color, fg=black)
-    options_menu.config(bg=default_color, fg=black  )
+    options_menu.config(bg=default_color, fg=black)
 
 
 # Create ToolBar Frame
